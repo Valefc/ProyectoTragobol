@@ -1,0 +1,133 @@
+from flask import Flask, render_template, request, redirect, url_for, flash
+from sqlalchemy import create_engine,desc
+from sqlalchemy.orm import sessionmaker, joinedload
+from flask import jsonify
+from Entity import Cliente, Producto, Institucion, Base
+from sqlalchemy.exc import IntegrityError
+from datetime import date
+app= Flask(__name__)
+
+app.secret_key='123456'
+
+
+# Crear conexión a la base de datos
+engine = create_engine('postgresql://postgres:valerito@localhost/TRAGOBOL')
+Base.metadata.bind = engine
+
+# Crear sesión de base de datos
+DBSession = sessionmaker(bind=engine)
+
+#Ruta Principal
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+###Listar Clientes
+@app.route('/cliente')
+def listar_cliente():
+    session= DBSession()
+    clientes =session.query(Cliente).all()
+    session.close()
+    return render_template('cliente.html',clientes=clientes)
+
+ 
+###Agregar Cliente
+@app.route('/cliente/agregar', methods=['GET', 'POST'])
+def agregar_cliente():
+    if request.method == 'POST':
+        session = DBSession()
+        Cliente.agregarCliente(session,
+                               request.form['codigocliente'],
+                               request.form['cicliente'],
+                               request.form['correocliente'],
+                               request.form['nombrecliente'],
+                               request.form['apellidopaterno'],
+                               request.form['apellidomaterno'],
+                               request.form['edadcliente'])
+        session.close()
+        return redirect(url_for('listar_cliente'))
+    else:
+        return render_template('agregar_cliente.html')
+
+
+###Editar Cliente
+@app.route('/cliente/editar/<int:id_cliente>', methods=['GET', 'POST'])
+def editar_cliente(id_cliente):
+    session = DBSession()
+    if request.method == 'POST':
+        
+        Cliente.modificarCliente(session, id_cliente,
+                                 codigocliente=request.form['codigocliente'],
+                                 cicliente=request.form['cicliente'],
+                                 correocliente=request.form['correocliente'],
+                                 nombrecliente=request.form['nombrecliente'],
+                                 apellidopaterno=request.form['apellidopaterno'],
+                                 apellidomaterno=request.form['apellidomaterno'],
+                                 edadcliente=request.form['edadcliente'])
+        session.close()
+        return redirect(url_for('listar_cliente'))
+    else:
+        # Obtener los datos de la oficina a editar
+        cliente = session.query(Cliente).filter_by(idcliente=id_cliente).first()
+        session.close()
+        return render_template('index.html', cliente=cliente, editar=True) 
+
+
+###Eliminar Cliente
+@app.route('/cliente/eliminar/<int:id_cliente>')
+def eliminar_cliente(id_cliente):
+    session = DBSession()
+    Cliente.eliminarCliente(session, id_cliente)
+    session.close()
+    return redirect(url_for('listar_cliente'))
+
+###Listar Institución
+@app.route('/institucion')
+def listar_institucion():
+    session= DBSession()
+    institucion =session.query(Institucion).all()
+    session.close()
+    return render_template('institucion.html',institucion=institucion)
+
+ 
+###Agregar Institución
+@app.route('/institucion/agregar', methods=['GET', 'POST'])
+def agregar_institucion():
+    if request.method == 'POST':
+        session = DBSession()
+        Institucion.agregarInstitucion(session,
+                               request.form['nombreinstitucion'],
+                               request.form['codigoinstitucion'],
+                               request.form['numerofiscal'],
+                               request.form['correo'])  # Puede ser None
+        session.close()
+        return redirect(url_for('listar_institucion'))
+    else:
+        return render_template('agregar_institucion.html')
+
+
+###Editar Institución
+@app.route('/institucion/editar/<int:id_institucion>', methods=['GET', 'POST'])
+def editar_institucion(id_institucion):
+    session = DBSession()
+    if request.method == 'POST':
+        Institucion.modificarInstitucion(session, id_institucion,
+                                 nombreinstitucion=request.form['nombreinstitucion'],
+                                 codigoinstitucion=request.form['codigoinstitucion'],
+                                 numerofiscal=request.form['numerofiscal'],
+                                 correo=request.form['correo'])  # Puede ser None
+        session.close()
+        return redirect(url_for('listar_institucion'))
+    else:
+        institucion= session.query(Institucion).filter_by(id_institucion=id_institucion).first()
+        session.close()
+        return render_template('index.html',institucion=institucion, editar=True)  # Pasar la bandera "editar" a la plantilla
+
+
+###Eliminar Institución
+@app.route('/institucion/eliminar/<int:id_institucion>')
+def eliminar_institucion(id_institucion):
+    session = DBSession()
+    Institucion.eliminarInstitucion(session, id_institucion)
+    session.close()
+    return redirect(url_for('listar_institucion'))

@@ -1,0 +1,138 @@
+
+{% extends "base.html" %}
+
+{% block title %}Institución {% endblock %} 
+
+{% block content %}
+
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Institución</h5>
+
+
+            <!-- Botón para abrir modal de agregar institución -->
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregarOficina">Agregar Institucion</button>
+
+            <!-- Tabla -->
+            <table class="table table-bordered table table-striped table table-hover" id="dataTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre Institucion</th>
+                        <th scope="col">Codigo Institucion</th>
+                        <th scope="col">Numero Fiscal</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ins in institucion %}
+                        <tr>
+                            <td>{{ ins.idinstitucion }}</td>
+                            <td>{{ ins.nombreinstitucion }}</td>
+                            <td>{{ ins.codigoinstitucion }}</td>
+                            <td>{{ ins.numerofiscal }}</td>
+                            <td>{{ oficina.correo }}</td>
+                            <td> 
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editarInstitucion('{{institucion.idinstitucion}}', '{{ institucion.nombreinstitucion}}', '{{ institucion.codigoinstitucion }}', '{{ institucion.numerofiscal }}', '{{ institucion.correo }}')">Editar</button>
+                            </td>
+                            <td><a href="{{ url_for('eliminar_institucion', id_institucion=institucion.idinstitucion) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar INSTITUCION -->
+            <div class="modal fade" id="modalAgregarInstitucion" tabindex="-1" aria-labelledby="modalAgregarInstitucionLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAgregarInstitucionLabel">Agregar Institucion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/institucion/agregar" method="POST">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="nombreinstitucion" class="form-label">Nombre Institucion</label>
+                                    <input type="text" class="form-control" id="nombreinstitucion" name="nombreinstitucion">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="codigoinstitucion" class="form-label">Codigo Institucion</label>
+                                    <input type="text" class="form-control" id="codigoinstitucion" name="codigoinstitucion">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numerofiscal" class="form-label">Numero Fiscal</label>
+                                    <input type="text" class="form-control" id="numerofiscal" name="numerofiscal">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="correo" class="form-label">Correo</label>
+                                    <input type="text" class="form-control" id="correo" name="correo">
+                                </div>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Fin Modal para agregar INSTITUCION -->
+<!-- Modal para editar institucion -->
+<div class="modal fade" id="modalEditarInstitucion" tabindex="-1" aria-labelledby="modalEditarInstitucionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarInstitucionLabel">Editar Institución</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editarInstitucionForm" action="/institucion/editar/" method="POST">
+
+                <div class="modal-body">
+                    <input type="hidden" id="editarIdInstitucion" name="idinstitucion">
+                    <div class="mb-3">
+                        <label for="editarNombreInstitucion" class="form-label">Nombre Institución</label>
+                        <input type="text" class="form-control" id="editarNombreInstitucion" name="nombreinstitucion">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarCodigoInstitucion" class="form-label">Codigo Institución</label>
+                        <input type="text" class="form-control" id="editarCodigoInstitucion" name="codigoinstitucion">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarNumeroFiscal" class="form-label">Número Fiscal</label>
+                        <input type="text" class="form-control" id="editarNumeroFiscal" name="numerofiscal">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarCorreo" class="form-label">Correo</label>
+                        <input type="text" class="form-control" id="editarCorreo" name="correo">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+{% block javascripts %}
+<script src="{{ url_for('static', filename='js/scriptInstitucion.js') }}"></script>
+
+{% endblock javascripts %}
+
+
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Cliente{% endblock %} 
+
+{% block content %}
+
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Vendedor</h5>
+
+
+            <!-- Botón para abrir modal de agregar vendedor -->
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregarVendedor">Agregar Vendedor</button>
+
+            <!-- Tabla -->
+            <table class="table table-bordered table table-striped table table-hover" id="dataTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre Vendedor</th>
+                        <th scope="col">Apellido Materno Vendedor</th>
+                        <th scope="col">Apellido Paterno Vendedor</th>
+                        <th scope="col">Código Vendedor</th>
+                        <th scope="col">CI Vendedor</th>
+                        <th scope="col">Zona Vendedor</th>
+                        <th scope="col">Salario</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ven in vendedores %}
+                        <tr>
+                            <td>{{ ven.idvendedor }}</td>
+                            <td>{{ ven.nombrevendedor }}</td>
+                            <td>{{ ven.apellidomaternovendedor }}</td>
+                            <td>{{ ven.apellidopaternovendedor }}</td>
+                            <td>{{ ven.codigovendedor }}</td>
+                            <td>{{ ven.civendedor }}</td>
+                            <td>{{ ven.zonavendedor }}</td>
+                            <td>{{ ven.salario }}</td>
+<!-- HASTA AQUÍ -->
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editarVendedor('{{cli.idcliente}}', '{{cli.codigocliente}}', '{{ cli.cicliente }}', '{{ cli.correocliente }}', '{{ cli.nombrecliente }}', '{{ cli.apellidopaterno }}', '{{ cli.apellidomaterno }}', '{{ cli.edadcliente }}')">Editar</button>
+                            </td>
+                            <td><a href="{{ url_for('eliminar_vendedor', id_vendedor=ven.idvendedor) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar Cliente -->
+<div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="modalAgregarClienteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarClienteLabel">Agregar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/cliente/agregar" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="codigocliente" class="form-label">Código Cliente</label>
+                        <input type="text" class="form-control" id="codigocliente" name="codigocliente">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cicliente" class="form-label">CI Cliente</label>
+                        <input type="text" class="form-control" id="cicliente" name="cicliente">
+                    </div>
+                    <div class="mb-3">
+                        <label for="correocliente" class="form-label">Correo CLiente</label>
+                        <input type="text" class="form-control" id="correocliente" name="correocliente">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombrecliente" class="form-label">Nombre Cliente</label>
+                        <input type="text" class="form-control" id="nombrecliente" name="nombrecliente">
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellidopaterno" class="form-label">Apellido Paterno</label>
+                        <input type="text" class="form-control" id="apellidopaterno" name="apellidopaterno">
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellidomaterno" class="form-label">Apellido Materno</label>
+                        <input type="text" class="form-control" id="apellidomaterno" name="apellidomaterno">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edadcliente" class="form-label">Edad Cliente</label>
+                        <input type="text" class="form-control" id="edadcliente" name="edadcliente">
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+            
+            
+        </div>
+    </div>
+</div>
+<!-- Fin Modal para agregar Cliente-->
+
+<!-- Modal para editar Cliente -->
+<div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-labelledby="modalEditarClienteLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+    <h5 class="modal-title" id="modalEditarClienteLabel">Editar Cliente</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<form id="editarClienteForm" action="/cliente/editar/" method="POST">
+
+    <div class="modal-body">
+        <input type="hidden" id="editarIdCliente" name="idcliente">
+        <div class="mb-3">
+            <label for="editarCodigoCliente" class="form-label">Código de Cliente</label>
+            <input type="text" class="form-control" id="editarCodigoCliente" name="codigocliente">
+        </div>
+        <div class="mb-3">
+            <label for="editarCiCliente" class="form-label">CI</label>
+            <input type="text" class="form-control" id="editarCiCliente" name="cicliente">
+        </div>
+        <div class="mb-3">
+            <label for="editarCorreoCliente" class="form-label">Correo Cliente</label>
+            <input type="text" class="form-control" id="editarCorreoCliente" name="correocliente">
+        </div>
+        <div class="mb-3">
+            <label for="editarNombreCliente" class="form-label">Nombre Cliente</label>
+            <input type="text" class="form-control" id="editarNombreCliente" name="nombrecliente">
+        </div>
+        <div class="mb-3">
+            <label for="editarApellidoPaterno" class="form-label">Apellido Paterno</label>
+            <input type="text" class="form-control" id="editarApellidoPaterno" name="apellidopaterno">
+        </div>
+        <div class="mb-3">
+            <label for="editarApellidoMaterno" class="form-label">Apellido Materno</label>
+            <input type="text" class="form-control" id="editarApellidoMaterno" name="apellidomaterno">
+        </div>
+        <div class="mb-3">
+            <label for="editarEdadCliente" class="form-label">Edad Cliente</label>
+            <input type="text" class="form-control" id="editarEdadCliente" name="edadcliente">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+
+
+
+
+{% endblock content %}
+{% block javascripts %}
+<script src="{{ url_for('static', filename='js/scriptCliente.js') }}"></script>
+{% endblock javascripts %}
+
+
+
+</body>
+</html>
