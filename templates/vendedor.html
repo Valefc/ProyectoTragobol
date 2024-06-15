@@ -34,14 +34,14 @@
                         <tr>
                             <td>{{ ven.idvendedor }}</td>
                             <td>{{ ven.nombrevendedor }}</td>
-                            <td>{{ ven.apellidomaternovendedor }}</td>
+                            <td>{{ ven.apellidomaternovendedor}}</td>
                             <td>{{ ven.apellidopaternovendedor }}</td>
                             <td>{{ ven.codigovendedor }}</td>
                             <td>{{ ven.civendedor }}</td>
                             <td>{{ ven.zonavendedor }}</td>
                             <td>{{ ven.salario }}</td>
-<!-- HASTA AQUÍ -->
-                                <button type="button" class="btn btn-primary btn-sm" onclick="editarVendedor('{{cli.idcliente}}', '{{cli.codigocliente}}', '{{ cli.cicliente }}', '{{ cli.correocliente }}', '{{ cli.nombrecliente }}', '{{ cli.apellidopaterno }}', '{{ cli.apellidomaterno }}', '{{ cli.edadcliente }}')">Editar</button>
+
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editarVendedor('{{ven.idvendedor}}', '{{ven.nombrevendedor}}', '{{ ven.apellidomaternovendedor }}', '{{ ven.apellidopaternovendedor }}', '{{ ven.codigovendedor }}', '{{ ven.civendedor }}', '{{ ven.zonavendedor }}', '{{ven.salario }}')">Editar</button>
                             </td>
                             <td><a href="{{ url_for('eliminar_vendedor', id_vendedor=ven.idvendedor) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
                         </tr>
@@ -52,43 +52,43 @@
     </div>
 </div>
 
-<!-- Modal para agregar Cliente -->
-<div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="modalAgregarClienteLabel" aria-hidden="true">
+<!-- Modal para agregar Vendedor -->
+<div class="modal fade" id="modalAgregarVendedor" tabindex="-1" aria-labelledby="modalAgregarVendedorLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalAgregarClienteLabel">Agregar Cliente</h5>
+                <h5 class="modal-title" id="modalAgregarVendedorLabel">Agregar Vendedor</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/cliente/agregar" method="POST">
+            <form action="/vendedor/agregar" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="codigocliente" class="form-label">Código Cliente</label>
-                        <input type="text" class="form-control" id="codigocliente" name="codigocliente">
+                        <label for="nombrevendedor" class="form-label">Nombre Vendedor</label>
+                        <input type="text" class="form-control" id="nombrevendedor" name="nombrevendedor">
                     </div>
                     <div class="mb-3">
-                        <label for="cicliente" class="form-label">CI Cliente</label>
-                        <input type="text" class="form-control" id="cicliente" name="cicliente">
+                        <label for="apellidomaternovendedor" class="form-label">Apellido Materno Vendedor</label>
+                        <input type="text" class="form-control" id="apellidomaternovendedor" name="apellidomaternovendedor">
                     </div>
                     <div class="mb-3">
-                        <label for="correocliente" class="form-label">Correo CLiente</label>
-                        <input type="text" class="form-control" id="correocliente" name="correocliente">
+                        <label for="apellidopaternovendedor" class="form-label">Apellido Paterno Vendedor</label>
+                        <input type="text" class="form-control" id="apellidopaternovendedor" name="apellidopaternovendedor">
                     </div>
                     <div class="mb-3">
-                        <label for="nombrecliente" class="form-label">Nombre Cliente</label>
-                        <input type="text" class="form-control" id="nombrecliente" name="nombrecliente">
+                        <label for="codigovendedor" class="form-label">Código Vendedor</label>
+                        <input type="text" class="form-control" id="codigovendedor" name="codigovendedor">
                     </div>
                     <div class="mb-3">
-                        <label for="apellidopaterno" class="form-label">Apellido Paterno</label>
-                        <input type="text" class="form-control" id="apellidopaterno" name="apellidopaterno">
+                        <label for="civendedor" class="form-label">CI Vendedor</label>
+                        <input type="text" class="form-control" id="civendedor" name="civendedor">
                     </div>
                     <div class="mb-3">
-                        <label for="apellidomaterno" class="form-label">Apellido Materno</label>
-                        <input type="text" class="form-control" id="apellidomaterno" name="apellidomaterno">
+                        <label for="zonavendedor" class="form-label">Zona Vendedor</label>
+                        <input type="text" class="form-control" id="zonavendedor" name="zonavendedor">
                     </div>
                     <div class="mb-3">
-                        <label for="edadcliente" class="form-label">Edad Cliente</label>
-                        <input type="text" class="form-control" id="edadcliente" name="edadcliente">
+                        <label for="salario" class="form-label">Salario</label>
+                        <input type="text" class="form-control" id="salario" name="salario">
                     </div>
                     
                 </div>
@@ -102,47 +102,47 @@
         </div>
     </div>
 </div>
-<!-- Fin Modal para agregar Cliente-->
+<!-- Fin Modal para agregar Vendedor-->
 
-<!-- Modal para editar Cliente -->
-<div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-labelledby="modalEditarClienteLabel" aria-hidden="true">
+<!-- Modal para editar Vendedor -->
+<div class="modal fade" id="modalEditarVender" tabindex="-1" aria-labelledby="modalEditarVendedorLabel" aria-hidden="true">
 <div class="modal-dialog">
 <div class="modal-content">
 <div class="modal-header">
-    <h5 class="modal-title" id="modalEditarClienteLabel">Editar Cliente</h5>
+    <h5 class="modal-title" id="modalEditarVendedorLabel">Editar Vendedor</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-<form id="editarClienteForm" action="/cliente/editar/" method="POST">
+<form id="editarVendedorForm" action="/vendedor/editar/" method="POST">
 
     <div class="modal-body">
-        <input type="hidden" id="editarIdCliente" name="idcliente">
+        <input type="hidden" id="editarIdVendedor" name="idvendedor">
         <div class="mb-3">
-            <label for="editarCodigoCliente" class="form-label">Código de Cliente</label>
-            <input type="text" class="form-control" id="editarCodigoCliente" name="codigocliente">
+            <label for="editarnombrevendedor" class="form-label">Nombre Vendedor</label>
+            <input type="text" class="form-control" id="editarnombrevendedor" name="nombrevendedor">
         </div>
         <div class="mb-3">
-            <label for="editarCiCliente" class="form-label">CI</label>
-            <input type="text" class="form-control" id="editarCiCliente" name="cicliente">
+            <label for="editarapellidomaternovendedor" class="form-label">Apellido Materno Vendedor</label>
+            <input type="text" class="form-control" id="editarapellidomaternovendedor" name="apellidomaternovendedor">
         </div>
         <div class="mb-3">
-            <label for="editarCorreoCliente" class="form-label">Correo Cliente</label>
-            <input type="text" class="form-control" id="editarCorreoCliente" name="correocliente">
+            <label for="editarapellidopaternovendedor" class="form-label">Apellido Paterno Vendedor</label>
+            <input type="text" class="form-control" id="editarapellidopaternovendedor" name="apellidopaternovendedor">
         </div>
         <div class="mb-3">
-            <label for="editarNombreCliente" class="form-label">Nombre Cliente</label>
-            <input type="text" class="form-control" id="editarNombreCliente" name="nombrecliente">
+            <label for="editarcodigovendedor" class="form-label">Código Vendedor</label>
+            <input type="text" class="form-control" id="editarcodigovendedor" name="codigovendedor">
         </div>
         <div class="mb-3">
-            <label for="editarApellidoPaterno" class="form-label">Apellido Paterno</label>
-            <input type="text" class="form-control" id="editarApellidoPaterno" name="apellidopaterno">
+            <label for="editarcivendedor" class="form-label">CI Vendedor</label>
+            <input type="text" class="form-control" id="editarcivendedor" name="civendedor">
         </div>
         <div class="mb-3">
-            <label for="editarApellidoMaterno" class="form-label">Apellido Materno</label>
-            <input type="text" class="form-control" id="editarApellidoMaterno" name="apellidomaterno">
+            <label for="editarzonavendedor" class="form-label">Zona Vendedor</label>
+            <input type="text" class="form-control" id="editarzonavendedor" name="zonavendedor">
         </div>
         <div class="mb-3">
-            <label for="editarEdadCliente" class="form-label">Edad Cliente</label>
-            <input type="text" class="form-control" id="editarEdadCliente" name="edadcliente">
+            <label for="editarsalario" class="form-label">Salario</label>
+            <input type="text" class="form-control" id="editarsalario" name="salario">
         </div>
     </div>
     <div class="modal-footer">
@@ -159,7 +159,7 @@
 
 {% endblock content %}
 {% block javascripts %}
-<script src="{{ url_for('static', filename='js/scriptCliente.js') }}"></script>
+<script src="{{ url_for('static', filename='js/scriptVendedor.js') }}"></script>
 {% endblock javascripts %}
 
 

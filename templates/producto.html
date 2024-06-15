@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Producto{% endblock %} 
+
+{% block content %}
+
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Producto</h5>
+
+
+            <!-- Botón para abrir modal de agregar oficina -->
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar Institucion</button>
+
+            <!-- Tabla -->
+            <table class="table table-bordered table table-striped table table-hover" id="dataTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Código Producto</th>
+                        <th scope="col">Descripcion Producto</th>
+                        <th scope="col">Precio Producto</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Nombre Producto</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pro in producto %}
+                        <tr>
+                            <td>{{ pro.idproducto }}</td>
+                            <td>{{ pro.codigoproducto}}</td>
+                            <td>{{ pro.descripcionproducto}}</td>
+                            <td>{{ pro.precioproducto}}</td>
+                            <td>{{ pro.tipo}}</td>
+                            <td>{{ pro.nombreproducto}}</td>
+                            <td> 
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editarProducto('{{producto.idproducto}}', '{{ producto.codigoproducto}}', '{{ producto.descripcionproducto}}', '{{ producto.precioproducto}}', '{{ producto.tipo}}', '{{ producto.nombreproducto}}')">Editar</button>
+                            </td>
+                            <td><a href="{{ url_for('eliminar_producto', id_producto=producto.idproducto) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar INSTITUCION -->
+            <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-labelledby="modalAgregarProductoLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAgregarProductoLabel">Agregar Producto</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/producto/agregar" method="POST">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="codigoproducto" class="form-label">Código Producto</label>
+                                    <input type="text" class="form-control" id="codigoproducto" name="codigoproducto">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcionproducto" class="form-label">Descripcion Producto</label>
+                                    <input type="text" class="form-control" id="descripcionproducto" name="descripcionproducto">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="precioproducto" class="form-label">Precio Producto</label>
+                                    <input type="text" class="form-control" id="precioproducto" name="precioproducto">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tipo" class="form-label">Tipo</label>
+                                    <input type="text" class="form-control" id="tipo" name="tipo">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nombreproducto" class="form-label">Nombre Producto</label>
+                                    <input type="text" class="form-control" id="nombreproducto" name="nombreproducto">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Fin Modal para agregar PRODUCTO -->
+<!-- Modal para editar oficina -->
+<div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="modalEditarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarProductoLabel">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editarProductoForm" action="/producto/editar/" method="POST">
+
+                <div class="modal-body">
+                    <input type="hidden" id="editarIdProducto" name="idproducto">
+                    <div class="mb-3">
+                        <label for="editarcodigoproducto" class="form-label">Código Producto</label>
+                        <input type="text" class="form-control" id="editarcodigoproducto" name="codigoproducto">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editardescripcionproducto" class="form-label">Descripcion Producto</label>
+                        <input type="text" class="form-control" id="editardescripcionproducto" name="descripcionproducto">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarprecioproducto" class="form-label">Precio Producto</label>
+                        <input type="text" class="form-control" id="editarprecioproducto" name="precioproducto">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editartipo" class="form-label">Tipo</label>
+                        <input type="text" class="form-control" id="editartipo" name="tipo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarnombreproducto" class="form-label">Nombre Producto</label>
+                        <input type="text" class="form-control" id="editarnombreproducto" name="nombreproducto">
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+{% block javascripts %}
+<script src="{{ url_for('static', filename='js/scriptProducto.js') }}"></script>
+
+{% endblock javascripts %}

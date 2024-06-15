@@ -1,16 +1,21 @@
 // Función para cargar los datos de la oficina seleccionada en la modal de edición
-function editarMatricula(idMatricula, fechaMatriculacion, idEstudiante,idCurso) {
-    document.getElementById('editarIdMatricula').value = idMatricula;
-    document.getElementById('editarfechamatriculacion').value = fechaMatriculacion;
-    document.getElementById('editaridestudiante').value = idEstudiante;
-    document.getElementById('editaridcurso').value = idCurso;
+function editarMatricula(idVendedor, nombreVendedor, apellidoMaternovendedor,apellidoPaternovendedor,codigoVendedor,CiVendedor,zonaVendedor,Salario) {
+    document.getElementById('editarIdVendedor').value = idVendedor;
+    document.getElementById('editarnombrevendedor').value = nombreVendedor;
+    document.getElementById('editarapellidomaternovendedor').value = apellidoMaternovendedor;
+    document.getElementById('editarapellidoPaternovendedor').value = apellidoPaternovendedor;
+    document.getElementById('editareditarcodigovendedor').value = codigoVendedor;
+    document.getElementById('editarcivendedor').value = CiVendedor;
+    document.getElementById('editarzonavendedor').value = zonaVendedor;
+    document.getElementById('editarsalario').value = Salario;
+
 
     // Modificar el atributo 'action' del formulario con la URL adecuada
-    var editarMatriculaForm = document.getElementById('editarMatriculaForm');
-    editarMatriculaForm.action = '/matricula/editar/' + idMatricula;
+    var editarVendedorForm = document.getElementById('editarVendedorForm');
+    editarVendedorForm.action = '/vendedor/editar/' + idVendedor;
 
     // Abrir la modal de edición
-    var myModal = new bootstrap.Modal(document.getElementById('modalEditarMatricula'), {
+    var myModal = new bootstrap.Modal(document.getElementById('modalEditarVendedor'), {
         keyboard: false
     });
     myModal.show();

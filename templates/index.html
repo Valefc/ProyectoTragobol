@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Sistema de Gestión TRAGOBOL{% endblock %}
+
+{% block content %}
+    <div class="outer-container">
+        <div class="inner-container">
+            <div class="content-box">
+                <h1 class="header">Menú Principal</h1>
+                
+                <div class="description">
+                    <p>Bienvenido al sistema de gestión de TRAGOBOL. Aquí puedes ver y administrar los registros de todos los productos, clientes, instituciones, vendedores y pedidos. Al igual que puedes comprar en línea utilizando nuestra página web. Usa el menú de navegación para acceder a las diferentes secciones.</p>
+                </div>
+                
+                <div class="info-section">
+                    <h2>Registros de Clientes</h2>
+                    <p>En esta sección, puedes agregar, actualizar o eliminar registros de clientes. Cada cliente tiene un perfil detallado que incluye nombre completo, código, cédula de identidad, correo electrónico y la edad.</p>
+                </div>
+                <div class="info-section">
+                    <h2>Registros de Instituciones</h2>
+                    <p>En esta sección, puedes agregar, actualizar o eliminar registros de instituciones. Cada institución tiene un perfil detallado que incluye nombre, código, número fiscal, correo electrónico y el correspondiente representante legal.</p>
+                </div>
+                <div class="info-section">
+                    <h2>Registros de Vendedor</h2>
+                    <p>En esta sección, puedes agregar, actualizar o eliminar registros de vendedores. Cada vendedor tiene un perfil detallado que incluye nombre completo, código, su cédula de identidad, la zona determinada y su respectivo salario.</p>
+                </div>
+                <div class="info-section">
+                    <h2>Registros de Productos</h2>
+                    <p>En esta sección, puedes agregar, actualizar o eliminar registros de productos. Cada producto tiene un perfil detallado que incluye nombre, código, descripción, tipo y precio.</p>
+                </div>
+                <div class="info-section">
+                    <h2>Registros de Pedidos</h2>
+                    <p>En esta sección, puedes agregar, actualizar o eliminar registros de pedidos. Cada pedido tiene un perfil detallado que incluye código, monto a pagar, fecha de pedido , fehca de entrega,  información del cliente o institución.</p>
+                </div>
+                <div class="info-section">
+                    <h2>Carrito de Compras</h2>
+                    <p><p>En esta sección, puedes revisar y gestionar los productos que has agregado a tu carrito de compras.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+    <!-- Aquí puedes añadir tus scripts JS personalizados -->
+{% endblock javascripts %}

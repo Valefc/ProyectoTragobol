@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine,desc
 from sqlalchemy.orm import sessionmaker, joinedload
 from flask import jsonify
-from Entity import Cliente, Producto, Institucion, Base
+from Entity import Cliente, Producto, Institucion, Vendedor,Base
 from sqlalchemy.exc import IntegrityError
 from datetime import date
 app= Flask(__name__)
@@ -22,6 +22,7 @@ DBSession = sessionmaker(bind=engine)
 def home():
     return render_template('index.html')
 
+####################################################
 ###Listar Clientes
 @app.route('/cliente')
 def listar_cliente():
@@ -81,6 +82,8 @@ def eliminar_cliente(id_cliente):
     session.close()
     return redirect(url_for('listar_cliente'))
 
+####################################################
+
 ###Listar Institución
 @app.route('/institucion')
 def listar_institucion():
@@ -131,3 +134,117 @@ def eliminar_institucion(id_institucion):
     Institucion.eliminarInstitucion(session, id_institucion)
     session.close()
     return redirect(url_for('listar_institucion'))
+
+################################################################
+
+###Listar Vendedor
+@app.route('/vendedor')
+def listar_vendedor():
+    session= DBSession()
+    vendedor =session.query(Vendedor).all()
+    session.close()
+    return render_template('vendedor.html',vendedor=vendedor)
+
+ 
+###Agregar Vendedor
+@app.route('/vendedor/agregar', methods=['GET', 'POST'])
+def agregar_vendedor():
+    if request.method == 'POST':
+        session = DBSession()
+        Vendedor.agregarVendedor(session,
+                               request.form['nombrevendedor'],
+                               request.form['apellidomaternovendedor'],
+                               request.form['apellidopaternovendedor'],
+                               request.form['codigovendedor'],
+                               request.form['civendedor'],
+                               request.form['zonavendedor'],
+                               request.form['salario'])  # Puede ser None
+        session.close()
+        return redirect(url_for('listar_vendedor'))
+    else:
+        return render_template('agregar_vendedor.html')
+
+
+###Editar Vendedor
+@app.route('/vendedor/editar/<int:id_vendedor>', methods=['GET', 'POST'])
+def editar_vendedor(id_vendedor):
+    session = DBSession()
+    if request.method == 'POST':
+        Vendedor.modificarVendedor(session, id_vendedor,
+                                 nombrevendedor=request.form['nombrevendedor'],
+                                 apellidomaternovendedor=request.form['apellidomaternovendedor'],
+                                 apellidopaternovendedor=request.form['apellidopaternovendedor'],
+                                 codigovendedor=request.form['codigovendedor'],
+                                 civendedor=request.form['civendedor'],
+                                 zonavendedor=request.form['zonavendedor'],
+                                 salario=request.form['salario'])  # Puede ser None
+        session.close()
+        return redirect(url_for('listar_vendedor'))
+    else:
+        vendedor= session.query(Vendedor).filter_by(id_vendedor=id_vendedor).first()
+        session.close()
+        return render_template('index.html',vendedor=vendedor, editar=True)  # Pasar la bandera "editar" a la plantilla
+
+
+###Eliminar Vendedor
+@app.route('/vendedor/eliminar/<int:id_vendedor>')
+def eliminar_vendedor(id_vendedor):
+    session = DBSession()
+    Vendedor.eliminarVendedor(session, id_vendedor)
+    session.close()
+    return redirect(url_for('listar_vendedor'))
+
+######################################################
+
+###Listar Productos
+@app.route('/producto')
+def listar_producto():
+    session= DBSession()
+    producto=session.query(Producto).all()
+    session.close()
+    return render_template('producto.html',producto=producto)
+
+ 
+# Agregar producto
+@app.route('/producto/agregar', methods=['GET', 'POST'])
+def agregar_producto():
+    if request.method == 'POST':
+        session = DBSession()
+        Producto.agregarProducto(session,
+                               request.form['codigoproducto'],
+                               request.form['descripcionproducto'],
+                               request.form['precioproducto'],
+                               request.form['tipo'],
+                               request.form['nombreproducto'])  # Puede ser None
+        session.close()
+        return redirect(url_for('listar_producto'))
+    else:
+        return render_template('agregar_producto.html')
+
+
+# Editar producto
+@app.route('/producto/editar/<int:id_producto>', methods=['GET', 'POST'])
+def editar_producto(id_producto):
+    session = DBSession()
+    if request.method == 'POST':
+        Producto.modificarProducto(session, id_producto,
+                                 codigoproducto=request.form['codigoproducto'],
+                                 descripcionproducto=request.form['descripcionproducto'],
+                                 precioproducto=request.form['precioproducto'],
+                                 tipo=request.form['tipo'],
+                                 nombreproducto=request.form['nombreproducto'])  # Puede ser None
+        session.close()
+        return redirect(url_for('listar_producto'))
+    else:
+        producto= session.query(Producto).filter_by(id_producto=id_producto).first()
+        session.close()
+        return render_template('index.html', producto=producto, editar=True)  # Pasar la bandera "editar" a la plantilla
+
+
+# Eliminar producto
+@app.route('/producto/eliminar/<int:id_producto>')
+def eliminar_producto(id_producto):
+    session = DBSession()
+    Producto.eliminarProducto(session, id_producto)
+    session.close()
+    return redirect(url_for('listar_producto'))
