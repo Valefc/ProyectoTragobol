@@ -41,7 +41,6 @@
                             <td>{{ cli.apellidomaterno }}</td>
                             <td>{{ cli.edadcliente }}</td>
                             <td>
-                            <td>{{ cli.apellidomaterno }}</td>
                                 <button type="button" class="btn btn-primary btn-sm" onclick="editarCliente('{{cli.idcliente}}', '{{cli.codigocliente}}', '{{ cli.cicliente }}', '{{ cli.correocliente }}', '{{ cli.nombrecliente }}', '{{ cli.apellidopaterno }}', '{{ cli.apellidomaterno }}', '{{ cli.edadcliente }}')">Editar</button>
                             </td>
                             <td><a href="{{ url_for('eliminar_cliente', id_cliente=cli.idcliente) }}" class="btn btn-danger btn-sm">Eliminar</a></td>

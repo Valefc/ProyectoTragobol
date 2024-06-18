@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine,desc
 from sqlalchemy.orm import sessionmaker, joinedload
 from flask import jsonify
-from Entity import Cliente, Producto, Institucion, Vendedor,Base
+from Entity import Cliente, Producto, Institucion, Vendedor,Pedido, PedidoProducto,Base
 from sqlalchemy.exc import IntegrityError
 from datetime import date
 app= Flask(__name__)
@@ -140,12 +140,11 @@ def eliminar_institucion(id_institucion):
 ###Listar Vendedor
 @app.route('/vendedor')
 def listar_vendedor():
-    session= DBSession()
-    vendedor =session.query(Vendedor).all()
+    session = DBSession()
+    vendedores = session.query(Vendedor).all()
     session.close()
-    return render_template('vendedor.html',vendedor=vendedor)
+    return render_template('vendedor.html', vendedores=vendedores)
 
- 
 ###Agregar Vendedor
 @app.route('/vendedor/agregar', methods=['GET', 'POST'])
 def agregar_vendedor():
@@ -200,9 +199,9 @@ def eliminar_vendedor(id_vendedor):
 @app.route('/producto')
 def listar_producto():
     session= DBSession()
-    producto=session.query(Producto).all()
+    productos=session.query(Producto).all()
     session.close()
-    return render_template('producto.html',producto=producto)
+    return render_template('producto.html',productos=productos)
 
  
 # Agregar producto
@@ -248,3 +247,63 @@ def eliminar_producto(id_producto):
     Producto.eliminarProducto(session, id_producto)
     session.close()
     return redirect(url_for('listar_producto'))
+
+#####################################################
+# Listar pedido
+@app.route('/pedido')
+def listar_pedido():
+    session= DBSession()
+    pedidos =session.query(Pedido).all()
+    cliente=session.query(Cliente).all()
+    institucion=session.query(Institucion).all()
+    return render_template('index.html', pedido=pedidos,cliente=cliente,institucion=institucion, editar=True)
+    
+
+ 
+# Agregar pedido
+@app.route('/pedido/agregar', methods=['GET', 'POST'])
+def agregar_pedido():
+    if request.method == 'POST':
+        session = DBSession()
+        Pedido.agregarPedido(session,
+                               request.form['codigopedido'],
+                               request.form['montopedido'],
+                               request.form['fechapedido'],
+                               request.form['fechaentrega'])  # Puede ser None
+        session.close()
+        return redirect(url_for('listar_pedido'))
+    else:
+        return render_template('agregar_pedido.html')
+
+
+# Editar Pedido
+@app.route('/pedido/editar/<int:id_pedido>', methods=['GET', 'POST'])
+def editar_pedido(id_pedido):
+    session = DBSession()
+    if request.method == 'POST':
+        # Modificar la pedido con los datos del formulario
+        Pedido.modificarPedido(session, id_pedido,
+                                 codigopedido=request.form['codigopedido'],
+                                 montopedido=request.form['montopedido'],
+                                 fechapedido=request.form['fechapedido'],
+                                 fechaentrega=request.form['fechaentrega'])  # Puede ser None
+        session.close()
+        return redirect(url_for('listar_pedido'))
+    else:
+        # Obtener los datos de la oficina a editar
+        pedido = session.query(Pedido).filter_by(idpedido=id_pedido).first()
+        cliente=session.query(Cliente).all()
+        institucion=session.query(Institucion).all()
+        return render_template('index.html', pedido=pedido,cliente=cliente,institucion=institucion, editar=True)  # Pasar la bandera "editar" a la plantilla
+
+# Eliminar pedido
+@app.route('/pedido/eliminar/<int:id_pedido>')
+def eliminar_pedido(id_pedido):
+    session = DBSession()
+    Pedido.eliminarPedido(session, id_pedido)
+    session.close()
+    return redirect(url_for('listar_pedido'))
+
+######################################################
+
+

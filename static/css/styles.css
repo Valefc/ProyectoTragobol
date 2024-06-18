@@ -13,3 +13,28 @@ body {
     flex: 1;
 }
 
+.outer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    background-color: #f0f0f000; /* Color de fondo de la página */
+}
+
+.inner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.content-box {
+    background-color: rgba(191, 200, 66, 0.5); /* Fondo verde transparente */
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(8, 8, 8, 0.1); /* Sombra */
+    max-width: 800px; /* Ancho máximo del cuadro */
+    width: 100%; /* Asegura que el cuadro ocupe todo el ancho disponible */
+    text-align: center; /* Centrar el texto */
+    color: white; /* Color de texto blanco */
+}

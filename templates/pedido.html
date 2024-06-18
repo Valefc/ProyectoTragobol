@@ -1,0 +1,171 @@
+
+{% extends "base.html" %}
+
+{% block title %}Pedido{% endblock %} 
+
+{% block content %}
+
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Pedido</h5>
+
+
+            <!-- Botón para abrir modal de pedido-->
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregarPedido">Agregar Pedido</button>
+
+            <!-- Tabla -->
+            <table class="table table-bordered table table-striped table table-hover" id="dataTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Código de Pedido</th>
+                        <th scope="col">Monto  Pedido</th>
+                        <th scope="col">Fecha Pedido</th>
+                        <th scope="col">Fecha Entrega</th>
+                        <th scope="col">ID Cliente</th>
+                        <th scope="col">ID Institucion</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pe in pedidos %}
+                        <tr>
+                            <td>{{ pe.idpedido }}</td>
+                            <td>{{ pe.codigopedido }}</td>
+                            <td>{{ pe.montopedido }}</td>
+                            <td>{{ pe.fechapedido }}</td>
+                            <td>{{ pe.fechaentrega }}</td>
+                            <td>{{ pe.idcliente }}</td>
+                            <td>{{ pe.idinstitucion }}</td>
+                            <td> 
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editarPedido('{{pe.idpedido}}', '{{pe.codigopedido}}', '{{ pe.montopedido }}', '{{ pe.fechapedido }}', '{{ pe.fechaentrega }}','{{ pe.idcliente }}','{{ pe.idinstitucion }}')">Editar</button>
+                            </td> 
+                            <td>
+                                <!-- Enlace para eliminar empleado -->
+                                <a href="{{ url_for('eliminar_pedido', id_pedido=pe.idpedido) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar oficina -->
+            <div class="modal fade" id="modalAgregarPedido" tabindex="-1" aria-labelledby="modalAgregarPedidoLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAgregarPedidoLabel">Agregar Pedido</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/pedido/agregar" method="POST">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="codigopedido" class="form-label">Código de Pedido</label>
+                                    <input type="text" class="form-control" id="codigopedido" name="codigopedido" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="montopedido" class="form-label">Monto Pedido</label>
+                                    <input type="text" class="form-control" id="montopedido" name="montopedido" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fechapedido" class="form-label">Fecha Pedido</label>
+                                    <input type="text" class="form-control" id="fechapedido" name="fechapedido" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fechaentrega" class="form-label">Fecha Entrega</label>
+                                    <input type="text" class="form-control" id="fechaentrega" name="fechaentrega" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="idcliente" class="form-label">ID Cliente</label>
+                                    <select class="form-select" id="idcliente" name="idcliente" required>
+                                        <option value="">Selecciona una opción</option>
+                                        {% for cli in cliente %}
+                                            <option value="{{ cli.idcliente }}">{{ cli.codigocliente}}-{{ cli.nombre}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="idinstitucion" class="form-label">ID Institucion</label>
+                                    <select class="form-select" id="idinstitucion" name="idinstitucion" required>
+                                        <option value="">Selecciona una opción</option>
+                                        {% for ins in institucion %}
+                                            <option value="{{ ins.idinstitucion }}">{{ ins.nombreinstitucion}} {{ ins.codigoinstitucion }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Fin Modal para agregar  -->
+<!-- Modal para editar  -->
+<div class="modal fade" id="modalEditarPedido" tabindex="-1" aria-labelledby="modalEditarPedidoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarPedidoLabel">Editar Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editarPedidoForm" action="/pedido/editar/" method="POST">
+
+                <div class="modal-body">
+                    <input type="hidden" id="editarIdpedido" name="idpedido">
+                    <div class="mb-3">
+                        <label for="editarcodigopedido" class="form-label">Código de Pedido</label>
+                        <input type="text" class="form-control" id="editarCodigoPedido" name="codigopedido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarmontopedido" class="form-label">Monto Pedido</label>
+                        <input type="text" class="form-control" id="editarmontopedido" name="montopedido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarfechapedido" class="form-label">Fecha del Pedido</label>
+                        <input type="text" class="form-control" id="fechapedido" name="fechapedido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarfechaentrega" class="form-label">Fecha Entregado</label>
+                        <input type="text" class="form-control" id="fechaentregado" name="fechaentregado" required>
+                    </div>
+                   
+                    <div class="mb-3">
+                        <label for="editaridestudiante" class="form-label">ID Estudiante</label>
+                        <input type="text" class="form-control" id="editaridestudiante" name="idestudiante">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editaridcurso" class="form-label">ID Curso</label>
+                        <input type="text" class="form-control" id="editaridcurso" name="idcurso">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+{% block javascripts %}
+<script src="{{ url_for('static', filename='js/scriptPedido.js') }}"></script>
+
+{% endblock javascripts %}
+
+
+
+</body>
+</html>

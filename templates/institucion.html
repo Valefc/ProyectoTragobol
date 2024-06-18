@@ -12,7 +12,7 @@
 
 
             <!-- Botón para abrir modal de agregar institución -->
-            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregarOficina">Agregar Institución</button>
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregarInstitucion">Agregar Institución</button>
 
             <!-- Tabla -->
             <table class="table table-bordered table table-striped table table-hover" id="dataTable">
@@ -34,11 +34,11 @@
                             <td>{{ ins.nombreinstitucion }}</td>
                             <td>{{ ins.codigoinstitucion }}</td>
                             <td>{{ ins.numerofiscal }}</td>
-                            <td>{{ oficina.correo }}</td>
+                            <td>{{ ins.correo }}</td>
                             <td> 
-                                <button type="button" class="btn btn-primary btn-sm" onclick="editarInstitucion('{{institucion.idinstitucion}}', '{{ institucion.nombreinstitucion}}', '{{ institucion.codigoinstitucion }}', '{{ institucion.numerofiscal }}', '{{ institucion.correo }}')">Editar</button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editarInstitucion('{{ins.idinstitucion}}', '{{ ins.nombreinstitucion}}', '{{ ins.codigoinstitucion }}', '{{ ins.numerofiscal }}', '{{ ins.correo }}')">Editar</button>
                             </td>
-                            <td><a href="{{ url_for('eliminar_institucion', id_institucion=institucion.idinstitucion) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
+                            <td><a href="{{ url_for('eliminar_institucion', id_institucion=ins.idinstitucion) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
 
                         </tr>
                     {% endfor %}

@@ -37,9 +37,9 @@
                             <td>{{ pro.tipo}}</td>
                             <td>{{ pro.nombreproducto}}</td>
                             <td> 
-                                <button type="button" class="btn btn-primary btn-sm" onclick="editarProducto('{{producto.idproducto}}', '{{ producto.codigoproducto}}', '{{ producto.descripcionproducto}}', '{{ producto.precioproducto}}', '{{ producto.tipo}}', '{{ producto.nombreproducto}}')">Editar</button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editarProducto('{{pro.idproducto}}', '{{ pro.codigoproducto}}', '{{ pro.descripcionproducto}}', '{{ pro.precioproducto}}', '{{ pro.tipo}}', '{{ pro.nombreproducto}}')">Editar</button>
                             </td>
-                            <td><a href="{{ url_for('eliminar_producto', id_producto=producto.idproducto) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
+                            <td><a href="{{ url_for('eliminar_producto', id_producto=pro.idproducto) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
 
                         </tr>
                     {% endfor %}

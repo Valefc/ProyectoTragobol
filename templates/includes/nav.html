@@ -9,17 +9,14 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{url_for('home')}}">Nosotros</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('carrito_compras')}}">Carrito</a>
-                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Entidades
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ url_for('listar_oficina')}}">Cliente</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('listar_empleado')}}">Institución</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('listar_cliente')}}">Cliente</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('listar_institucion')}}">Institución</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url_for('listar_pedido')}}">Vendedor</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('listar_vendedor')}}">Vendedor</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -27,7 +24,7 @@
                         Compras
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ url_for('listar_oficina')}}">Producto</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('listar_producto')}}">Producto</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ url_for('listar_pedido')}}">Pedido</a></li>
                     </ul>

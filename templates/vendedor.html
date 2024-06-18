@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Cliente{% endblock %} 
+{% block title %}Vendedor{% endblock %} 
 
 {% block content %}
 
@@ -40,7 +40,7 @@
                             <td>{{ ven.civendedor }}</td>
                             <td>{{ ven.zonavendedor }}</td>
                             <td>{{ ven.salario }}</td>
-
+                            <td>
                                 <button type="button" class="btn btn-primary btn-sm" onclick="editarVendedor('{{ven.idvendedor}}', '{{ven.nombrevendedor}}', '{{ ven.apellidomaternovendedor }}', '{{ ven.apellidopaternovendedor }}', '{{ ven.codigovendedor }}', '{{ ven.civendedor }}', '{{ ven.zonavendedor }}', '{{ven.salario }}')">Editar</button>
                             </td>
                             <td><a href="{{ url_for('eliminar_vendedor', id_vendedor=ven.idvendedor) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
@@ -105,7 +105,7 @@
 <!-- Fin Modal para agregar Vendedor-->
 
 <!-- Modal para editar Vendedor -->
-<div class="modal fade" id="modalEditarVender" tabindex="-1" aria-labelledby="modalEditarVendedorLabel" aria-hidden="true">
+<div class="modal fade" id="modalEditarVendedor" tabindex="-1" aria-labelledby="modalEditarVendedorLabel" aria-hidden="true">
 <div class="modal-dialog">
 <div class="modal-content">
 <div class="modal-header">
