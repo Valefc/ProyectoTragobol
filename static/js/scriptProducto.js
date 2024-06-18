@@ -1,9 +1,8 @@
 function editarProducto(idproducto,codigoproducto,descripcionproducto,precioproducto,tipo,nombreproducto) {
-    document.getElementById('editaridproducto').value = idproducto;
+    document.getElementById('editarIdProducto').value = idproducto;
     document.getElementById('editarcodigoproducto').value = codigoproducto;
     document.getElementById('editardescripcionproducto').value = descripcionproducto;
     document.getElementById('editarprecioproducto').value = precioproducto;
-    document.getElementById('editartipo').value = tipo;
     document.getElementById('editarnombreproducto').value = nombreproducto;
 
     // Modificar el atributo 'action' del formulario con la URL adecuada

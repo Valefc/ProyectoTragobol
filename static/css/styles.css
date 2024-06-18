@@ -2,7 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: url('../images/descarga.jpg');
+    background-image: url('../images/ultimo.jpeg');
     background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
@@ -29,7 +29,7 @@ body {
 }
 
 .content-box {
-    background-color: rgba(191, 200, 66, 0.5); /* Fondo verde transparente */
+    background-color: rgba(103, 214, 214, 0.5); /* Fondo verde transparente */
     padding: 20px;
     border-radius: 10px; /* Bordes redondeados */
     box-shadow: 0 4px 8px rgba(8, 8, 8, 0.1); /* Sombra */

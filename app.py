@@ -213,7 +213,6 @@ def agregar_producto():
                                request.form['codigoproducto'],
                                request.form['descripcionproducto'],
                                request.form['precioproducto'],
-                               request.form['tipo'],
                                request.form['nombreproducto'])  # Puede ser None
         session.close()
         return redirect(url_for('listar_producto'))
@@ -230,7 +229,6 @@ def editar_producto(id_producto):
                                  codigoproducto=request.form['codigoproducto'],
                                  descripcionproducto=request.form['descripcionproducto'],
                                  precioproducto=request.form['precioproducto'],
-                                 tipo=request.form['tipo'],
                                  nombreproducto=request.form['nombreproducto'])  # Puede ser None
         session.close()
         return redirect(url_for('listar_producto'))
@@ -253,13 +251,12 @@ def eliminar_producto(id_producto):
 @app.route('/pedido')
 def listar_pedido():
     session= DBSession()
-    pedidos =session.query(Pedido).all()
+    pedidos=session.query(Pedido).all()
     cliente=session.query(Cliente).all()
     institucion=session.query(Institucion).all()
-    return render_template('index.html', pedido=pedidos,cliente=cliente,institucion=institucion, editar=True)
+    return render_template('pedido.html', pedidos=pedidos,cliente=cliente,institucion=institucion)
     
 
- 
 # Agregar pedido
 @app.route('/pedido/agregar', methods=['GET', 'POST'])
 def agregar_pedido():
@@ -292,9 +289,8 @@ def editar_pedido(id_pedido):
     else:
         # Obtener los datos de la oficina a editar
         pedido = session.query(Pedido).filter_by(idpedido=id_pedido).first()
-        cliente=session.query(Cliente).all()
-        institucion=session.query(Institucion).all()
-        return render_template('index.html', pedido=pedido,cliente=cliente,institucion=institucion, editar=True)  # Pasar la bandera "editar" a la plantilla
+        session.close()
+        return render_template('index.html', pedido=pedido, editar=True)  # Pasar la bandera "editar" a la plantilla
 
 # Eliminar pedido
 @app.route('/pedido/eliminar/<int:id_pedido>')

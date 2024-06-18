@@ -160,16 +160,14 @@ class Producto(Base):
     codigoproducto = Column(Integer, unique=True, nullable=False)
     descripcionproducto = Column(String(50))
     precioproducto = Column(Numeric(18,2), nullable=False)
-    tipo =  Column(String(50))
     nombreproducto = Column(String(50))
     
     @staticmethod
-    def agregarProducto(session, codigoproducto, descripcionproducto, precioproducto, tipo, nombreproducto):
+    def agregarProducto(session, codigoproducto, descripcionproducto, precioproducto,nombreproducto):
         nuevoProducto = Producto(
             codigoproducto=codigoproducto,
             descripcionproducto=descripcionproducto,
             precioproducto=precioproducto,
-            tipo=tipo,
             nombreproducto=nombreproducto
         )
         session.add(nuevoProducto)
