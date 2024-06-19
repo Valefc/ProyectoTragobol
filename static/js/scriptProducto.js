@@ -1,5 +1,5 @@
-function editarProducto(idproducto,codigoproducto,descripcionproducto,precioproducto,tipo,nombreproducto) {
-    document.getElementById('editarIdProducto').value = idproducto;
+function editarProducto(idproducto, codigoproducto, descripcionproducto, precioproducto, nombreproducto) {
+    document.getElementById('editarIdproducto').value = idproducto; // Verifica que el ID coincida con el HTML
     document.getElementById('editarcodigoproducto').value = codigoproducto;
     document.getElementById('editardescripcionproducto').value = descripcionproducto;
     document.getElementById('editarprecioproducto').value = precioproducto;

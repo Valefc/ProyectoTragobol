@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Producto{% endblock %} 
+{% block title %}Producto{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -28,8 +28,16 @@
                             <td>{{ pro.descripcionproducto }}</td>
                             <td>{{ pro.precioproducto }}</td>
                             <td>{{ pro.nombreproducto }}</td>
-                            <td><button type="button" class="btn btn-primary btn-sm" onclick="editarProducto('{{ pro.idproducto }}', '{{ pro.codigoproducto }}', '{{ pro.descripcionproducto }}', '{{ pro.precioproducto }}','{{ pro.nombreproducto }}')">Editar</button></td>
-                            <td><a href="{{ url_for('eliminar_producto', id_producto=pro.idproducto) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm" 
+                                    data-bs-toggle="modal" data-bs-target="#modalEditarProducto"
+                                    onclick="editarProducto('{{ pro.idproducto }}', '{{ pro.codigoproducto }}', '{{ pro.descripcionproducto }}', '{{ pro.precioproducto }}', '{{ pro.nombreproducto }}')">
+                                    Editar
+                                </button>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('eliminar_producto', id_producto=pro.idproducto) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -46,23 +54,23 @@
                 <h5 class="modal-title" id="modalAgregarProductoLabel">Agregar Producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ url_for('agregar_producto') }}" method="POST">
+            <form action="/producto/agregar" method="POST">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="codigoproducto" class="form-label">Código Producto</label>
-                        <input type="text" class="form-control" id="codigoproducto" name="codigoproducto">
+                        <input type="text" class="form-control" id="codigoproducto" name="codigoproducto" required>
                     </div>
                     <div class="mb-3">
                         <label for="descripcionproducto" class="form-label">Descripcion Producto</label>
-                        <input type="text" class="form-control" id="descripcionproducto" name="descripcionproducto">
+                        <input type="text" class="form-control" id="descripcionproducto" name="descripcionproducto" required>
                     </div>
                     <div class="mb-3">
                         <label for="precioproducto" class="form-label">Precio Producto</label>
-                        <input type="text" class="form-control" id="precioproducto" name="precioproducto">
+                        <input type="text" class="form-control" id="precioproducto" name="precioproducto" required>
                     </div>
                     <div class="mb-3">
                         <label for="nombreproducto" class="form-label">Nombre Producto</label>
-                        <input type="text" class="form-control" id="nombreproducto" name="nombreproducto">
+                        <input type="text" class="form-control" id="nombreproducto" name="nombreproducto" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -73,3 +81,50 @@
         </div>
     </div>
 </div>
+
+<!-- Modal para editar Producto -->
+<div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="modalEditarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarProductoLabel">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editarProductoForm" action="/producto/editar/" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" id="editarIdproducto" name="idproducto"> 
+                    <div class="mb-3">
+                        <label for="editarcodigoproducto" class="form-label">Código Producto</label>
+                        <input type="text" class="form-control" id="editarcodigoproducto" name="codigoproducto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editardescripcionproducto" class="form-label">Descripcion Producto</label>
+                        <input type="text" class="form-control" id="editardescripcionproducto" name="descripcionproducto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarprecioproducto" class="form-label">Precio Producto</label>
+                        <input type="text" class="form-control" id="editarprecioproducto" name="precioproducto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarnombreproducto" class="form-label">Nombre Producto</label>
+                        <input type="text" class="form-control" id="editarnombreproducto" name="nombreproducto" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block javascripts %}
+<script src="{{ url_for('static', filename='js/scriptProducto.js') }}"></script>
+{% endblock javascripts %}
+
+
+
+</body>
+</html>

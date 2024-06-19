@@ -233,7 +233,7 @@ def editar_producto(id_producto):
         session.close()
         return redirect(url_for('listar_producto'))
     else:
-        producto= session.query(Producto).filter_by(id_producto=id_producto).first()
+        producto= session.query(Producto).filter_by(idproducto=id_producto).first()
         session.close()
         return render_template('index.html', producto=producto, editar=True)  # Pasar la bandera "editar" a la plantilla
 
@@ -266,7 +266,9 @@ def agregar_pedido():
                                request.form['codigopedido'],
                                request.form['montopedido'],
                                request.form['fechapedido'],
-                               request.form['fechaentrega'])  # Puede ser None
+                               request.form['fechaentrega'],
+                               request.form['idcliente'],
+                               request.form['idinstitucion'])  
         session.close()
         return redirect(url_for('listar_pedido'))
     else:
@@ -283,7 +285,9 @@ def editar_pedido(id_pedido):
                                  codigopedido=request.form['codigopedido'],
                                  montopedido=request.form['montopedido'],
                                  fechapedido=request.form['fechapedido'],
-                                 fechaentrega=request.form['fechaentrega'])  # Puede ser None
+                                 fechaentrega=request.form['fechaentrega'],
+                                 idcliente=request.form['idcliente'],
+                                 idinstitucion=request.form['idinstitucion'])  
         session.close()
         return redirect(url_for('listar_pedido'))
     else:
